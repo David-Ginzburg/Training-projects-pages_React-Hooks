@@ -2,36 +2,49 @@ import React, { useState } from 'react'
 import TicTacToeBoard from './TicTacToeBoard'
 
 const TicTacToeGame = () => {
-    const [board, setBoard] = useState(Array(9).fill(null))
+    const [history, setHistory] = useState([Array(9).fill(null)])
+    const [stepNumber, setStepNumber] = useState(0);
     const [xIsNext, setXisNext] = useState(true)
-    const winner = calculateWinner(board)
+    const [selected, setSelected] = useState(null)
+    const winner = calculateWinner(history[stepNumber]).winner
+    const winnerLine = calculateWinner(history[stepNumber]).winnerLine;
 
     const handleClick = i => {
-        const boardCopy = [...board]
-        if (winner || boardCopy[i]) return;
-        boardCopy[i] = xIsNext ? 'X' : 'O'
-        setBoard(boardCopy)
+        const timeInHistory = history.slice(0, stepNumber + 1)
+        const current = timeInHistory[stepNumber]
+        const squares = [...current]
+        if (winner || squares[i]) return
+        squares[i] = xIsNext ? 'X' : 'O'
+        setHistory([...timeInHistory, squares])
+        setStepNumber(timeInHistory.length)
         setXisNext(!xIsNext)
+        setSelected(i)
     }
 
-    const jumpTo = () => {
-
+    const jumpTo = step => {
+        setStepNumber(step)
+        setXisNext(step % 2 === 0)
     }
 
     const renderMoves = () => (
-        <button onClick={() => {
-            setBoard(Array(9).fill(null))
-            setXisNext(true)}}>
-            Restart game
-        </button>
+        history.map((_step, move) => {
+            const destination = move ? `Go to move#${move}` : 'Go to start';
+            return (
+                <li key={move}>
+                    <button onClick={() => jumpTo(move)}>{destination}</button>
+                </li>
+            )
+        })        
     )
 
     return (
         <>
-            <TicTacToeBoard onClick={handleClick} squares={board} />
+            <TicTacToeBoard squares={history[stepNumber]} onClick={handleClick} selectedSquare={selected} winnerLine={winnerLine} />
             <div className="winner">
-                <p>{winner ? "Winner is: " + winner : "Next player is: " + (xIsNext ? 'X' : 'O')}</p>
-                {renderMoves()}
+                <p>{winner ? "Winner is: " + winner : stepNumber === 9 ? "Draw" : "Next player is: " + (xIsNext ? 'X' : 'O')}</p>
+                <ul>
+                    {renderMoves()}
+                </ul>
             </div>
         </>
     )
@@ -53,8 +66,8 @@ function calculateWinner(squares) {
     for (let i = 0; i < lines.length; i++) {
       const [a, b, c] = lines[i];
       if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-        return squares[a];
+        return {winner: squares[a], winnerLine: lines[i]};
       }
     }
-    return null;
+    return {};
   }
