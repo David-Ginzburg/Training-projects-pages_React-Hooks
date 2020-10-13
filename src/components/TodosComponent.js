@@ -80,7 +80,7 @@ class TodosComponent extends Component {
         if (isLoaded) {
             return (
                 <>
-                <h3 className="m-3">A task-manager application sketch, not full functionality:</h3>
+                <h3 className="m-3">An task-manager application sketch, not full functionality:</h3>
                 <div className="task-form">
                     <form onSubmit={this.handleSubmit} className="form-inline justify-content-center">
                         <label htmlFor="newTask" className="task-input mr-2">New task: </label>
