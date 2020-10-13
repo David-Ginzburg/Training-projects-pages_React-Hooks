@@ -17,7 +17,6 @@ class CoctailComponent extends Component {
         .then(res => res.json())
         .then(
             (result) => {
-                console.log(result)
                 this.setState({
                     isLoaded: true, 
                     coctails: result.drinks
@@ -43,12 +42,17 @@ class CoctailComponent extends Component {
             }
             else if (isLoaded) {
                 return (
-                <ul className="p-2">
-                    {coctails.map(item => <li key={item.idDrink} className="p-2">
-                    {item.strDrink}
-                    <img width="50" height="50" alt={item.strDrink} src={item.strDrinkThumb} />
-                    </li>)}
-                </ul>
+                <>
+                    <h3 className="m-3">Cards are received with fetch request and layouted with bootstrap:</h3>
+                    <div className="card-columns coctails">
+                        {coctails.map(item => <div key={item.idDrink} className="card coctail">
+                        <div className="card-body text-center">
+                            <p className="card-title">{item.strDrink}</p>
+                            <img width="100" height="100" alt={item.strDrink} src={item.strDrinkThumb} />
+                        </div>
+                        </div>)}
+                    </div>
+                </>
                 )
             }
             else if(!isLoaded) {

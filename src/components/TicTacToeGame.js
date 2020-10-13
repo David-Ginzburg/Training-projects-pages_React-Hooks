@@ -39,6 +39,7 @@ const TicTacToeGame = () => {
 
     return (
         <>
+            <h3 className="m-3">Tic-Tac-Toe game implemented with React Hooks:</h3>
             <TicTacToeBoard squares={history[stepNumber]} onClick={handleClick} selectedSquare={selected} winnerLine={winnerLine} />
             <div className="winner">
                 <p>{winner ? "Winner is: " + winner : stepNumber === 9 ? "Draw" : "Next player is: " + (xIsNext ? 'X' : 'O')}</p>
