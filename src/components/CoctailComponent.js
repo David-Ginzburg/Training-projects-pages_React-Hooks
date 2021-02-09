@@ -44,7 +44,7 @@ class CoctailComponent extends Component {
                 return (
                 <>
                     <h3 className="m-3">Cards are received with fetch request and layouted with bootstrap:</h3>
-                    <div className="card-columns coctails">
+                    <div className="coctails">
                         {coctails.map(item => <div key={item.idDrink} className="card coctail">
                         <div className="card-body text-center">
                             <p className="card-title">{item.strDrink}</p>

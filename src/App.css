@@ -100,9 +100,18 @@ input[type=checkbox]:focus {
 
 .coctails {
     margin: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
 }
 
 .card.coctail {
     border: 1px groove black;
     box-shadow: 3px 3px 1px #E6614E;
+}
+
+@media (max-width: 576px) {
+    .coctails {
+        grid-template-columns: 1fr;
+    }
 }
